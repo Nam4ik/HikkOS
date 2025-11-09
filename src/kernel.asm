@@ -1,0 +1,17 @@
+bits 32                                                            
+section .text
+    ;multiboot spec
+    align 4
+    dd 0x1BADB002           ; magic Multiboot
+    dd 0x00                 ; flags                                    
+    dd -(0x1BADB002 + 0x00) ; checksum
+    global start                                                       
+    extern kmain
+start:                                                                                     
+    mov esp, stack_top      ; stackstate call kmain              
+
+section .bss
+    resb 8192              ; резервируем 8 KiB под стек
+stack_top:
+
+section .note.GNU-stack                                            ; empty
