@@ -1,61 +1,62 @@
-# C COMPILER SETTINGS  
-CC = clang 
+# C COMPILER SETTINGS
+CC = clang
 CFLAGS = -target i386-unknown-none -ffreestanding -mno-sse -mno-mmx -mno-80387 -mno-red-zone -c -std=c99 -Wall -Wextra
 
-# NASM settings  
-ASM = nasm 
-NASMFLAGS = -f elf32 
+# NASM settings
+ASM = nasm
+NASMFLAGS = -f elf32
 
-# LINKER 
-LD = ld 
-LDFLAGS = -m elf_i386 -T linker.ld 
+# LINKER
+LD = ld
+LDFLAGS = -m elf_i386 -T linker.ld
 
-# Dirs 
-SRCDIR = src 
-OBJDIR = obj 
-BINDIR = bin 
+# Dirs
+SRCDIR = src
+OBJDIR = obj
+BINDIR = bin
 
-# Source files
+
 CSRC = $(wildcard $(SRCDIR)/*.c)
-ASMSRC = $(wildcard $(SRCDIR)/*.s) $(wildcard $(SRCDIR)/mlibc/*.s)
+ASMSRC_SUBDIRS = $(wildcard $(SRCDIR)/mlibc/*.s) 
+ASMSRC = $(wildcard $(SRCDIR)/*.s)
 
-# Rust sources can be added later, e.g., $(wildcard $(SRCDIR)/*.rs)
 
-# Object files
 COBJ = $(CSRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+ASMOBJ_SUBDIRS = $(ASMSRC_SUBDIRS:$(SRCDIR)/mlibc/%.s=$(OBJDIR)/mlibc/%.o)
 ASMOBJ = $(ASMSRC:$(SRCDIR)/%.s=$(OBJDIR)/%.o)
-# ROBJ = $(RSRC:$(SRCDIR)/%.rs=$(OBJDIR)/%.o) for rust later 
+ALL_OBJ = $(COBJ) $(ASMOBJ) $(ASMOBJ_SUBDIRS)
 
-# Target result  
 TARGET = $(BINDIR)/kernel.elf
 
-# Create directories
 $(OBJDIR):
+	mkdir -p $(OBJDIR)/mlibc # Создаём сразу подкаталоги
 	mkdir -p $(OBJDIR)
-	mkdir -p $(OBJDIR)/mlibc
 
 $(BINDIR):
 	mkdir -p $(BINDIR)
 
-# Compile C files
 $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
 	$(CC) $(CFLAGS) $< -o $@
+	@echo "Compiled $< to $@"
 
-# Compile ASM files (ASM)
 $(OBJDIR)/%.o: $(SRCDIR)/%.s | $(OBJDIR)
 	$(ASM) $(NASMFLAGS) $< -o $@
+	@echo "Assembled $< to $@"
 
-# Compile ASM files in subdirectories like mlibc
-$(OBJDIR)/mlibc/%.o: $(SRCDIR)/mlibc/%.s | $(OBJDIR)
+$(OBJDIR)/mlibc/%.o: $(SRCDIR)/mlibc/%.s | $(OBJDIR) 
 	$(ASM) $(NASMFLAGS) $< -o $@
+	@echo "Assembled $< to $@"
 
-# Link all objects into the final executable
-$(TARGET): $(COBJ) $(ASMOBJ) | $(BINDIR)
+$(TARGET): $(ALL_OBJ) | $(BINDIR)
 	$(LD) $(LDFLAGS) -o $@ $^
+	@echo "Linked $@"
 
-# Clean build files
 clean:
 	rm -rf $(OBJDIR) $(BINDIR)
+	@echo "Cleaned build directories."
 
-# Phony targets
 .PHONY: all clean
+
+# Default target
+all: $(TARGET)
+	@echo "Build completed: $(TARGET)"
