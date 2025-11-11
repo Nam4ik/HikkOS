@@ -1,4 +1,6 @@
 ; crt0.asm — intel NASM i386 
+; mlibc program entrypoint
+
 BITS 32
 global _start
 
