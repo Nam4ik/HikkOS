@@ -1,7 +1,7 @@
 // klib.c - c99 clang i386
 // kernel tools 
 
-#include <stddef.h>
+#include "stddef.h"
 
 /* C-part of kernel memory stat */
 static struct kstat_memory {
@@ -9,4 +9,3 @@ static struct kstat_memory {
     size_t free;
     size_t total;
 }; 
-

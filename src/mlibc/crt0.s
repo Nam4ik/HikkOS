@@ -19,3 +19,8 @@ _start:
     add esp, 8
     push eax              ; return code
     call _exit
+
+exit:
+    pop ebx               
+    mov eax, 1            
+    int 0x80              

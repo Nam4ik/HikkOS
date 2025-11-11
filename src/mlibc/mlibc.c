@@ -1,6 +1,7 @@
 // mlibc.c - c99 clang i386 
+// main functions of libc like printf
+#include "stdio.h"
 
-typedef unsigned int size_t; 
 extern int sys_write(int fd, const void *buf, size_t count);
 extern void sys_exit(int exit_code);
 
