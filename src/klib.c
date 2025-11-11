@@ -1,3 +1,6 @@
+// klib.c - c99 clang i386
+// kernel tools 
+
 #include <stddef.h>
 
 /* C-part of kernel memory stat */
