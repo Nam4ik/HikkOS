@@ -1,4 +1,4 @@
-ENTRY(_start) /* Точка входа - должна совпадать с вашей стартовой меткой в boot */
+ENTRY(_start) 
 
 SECTIONS
 {
