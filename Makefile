@@ -29,7 +29,7 @@ ALL_OBJ = $(COBJ) $(ASMOBJ) $(ASMOBJ_SUBDIRS)
 TARGET = $(BINDIR)/kernel.elf
 
 $(OBJDIR):
-	mkdir -p $(OBJDIR)/mlibc # Создаём сразу подкаталоги
+	mkdir -p $(OBJDIR)/mlibc 
 	mkdir -p $(OBJDIR)
 
 $(BINDIR):
