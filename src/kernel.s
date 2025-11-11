@@ -1,6 +1,7 @@
+; kernel.s - intel NASM i386  
 ; Kernel-loader 
 
-bits 32                                                            
+BITS 32                                                            
 section .text
     ;multiboot spec
     align 4
