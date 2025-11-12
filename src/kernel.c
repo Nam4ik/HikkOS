@@ -1,4 +1,5 @@
 #include "kernel.h"
+#include "gdt.h" 
 
 unsigned int vga_pointer_x; 
 unsigned int vga_pointer_y; 
@@ -49,7 +50,9 @@ void kprint(const char fmt[]) {
 void kmain(void)
 {   
     kprint("Starting initialising kern..."); 
-
+    gdt_init(); 
+    kprint("Successfully initialised global descriptor table."); 
+    
     /* infinte kernel cycle */
     for (;;)
     {
