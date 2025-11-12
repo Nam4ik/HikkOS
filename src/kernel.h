@@ -1,6 +1,9 @@
 // kernel.h - c99 clang i386  
 // main constants and kernel functions
 
+#ifndef KERNEL_H
+#define KERNEL_H
+
 #define VGA_WIDTH 80
 #define VGA_HEIGHT 25
 #define VGA_BUFFER 0xB8000UL
@@ -17,5 +20,15 @@ typedef struct {
 } __attribute__((packed)) vga_char;
 
 
+/* 
+ * Kernel entry point
+ */
 void kmain(void);
-void kprint(const char fmt[]);
+
+/*
+ * Minimal VGA printf functions analogue
+ * @param fmt string to print
+ */
+void kprint(const char *fmt);
+
+#endif /* KERNEL_H */

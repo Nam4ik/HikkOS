@@ -1,45 +1,46 @@
+; gdt.s - intel NASM i386 
+; global descriptor table
+
 global gdt_init
 
 section .data
 
-; Структура gdt:
+; Structure of gdt:
 ;    0: NULL
-;    1: Кодовый сегмент (привилегии 0)
-;    2: Данные (привилегии 0)
+;    1: Code segment (privileges 0)
+;    2: Data (privileges 0)
 
 gdt:
-    ; Нулевой дескриптор (не используется): Index = 0
+    ; Zero descriptor : Index = 0
     dd 0x00000000
     dd 0x00000000
-    ; Сегмент кода (для привилегий 0, 32-битный): Index = 1
+    ; Code segment (for privileges 0, 32b): Index = 1
     dd 0x0000FFFF
     dd 0x00CF9A00
-    ; Сегмент данных (для привилегий 0, 32-битный): Index = 2
+    ; Data segment (for Privileges 0, 32b): Index = 2
     dd 0x0000FFFF
     dd 0x00CF9200
 
 
 gdt_info:
-    dw gdt_info - gdt - 1   ; Размер GDT (должен быть на 1 меньше)
-    dd gdt                  ; Адрес GDT (32-битный)
+    dw gdt_info - gdt - 1   ; GDT size 
+    dd gdt                  ; GDT addr
 
 
 section .text
 
 
 gdt_init:
-    lgdt [gdt_info]         ; Загружаем GDT
+    lgdt [gdt_info]         
 
-    ; Перезагружаем сегментные регистры
-    mov ax, 0x10            ; Селектор сегмента данных (просто математика: 2 << 3 = 0x10 - 2 это индекс)
+    mov ax, 0x10          
     mov ds, ax
     mov es, ax
     mov fs, ax
     mov gs, ax
     mov ss, ax
 
-    ; Делаем дальний прыжок для обновления CS
-    jmp 0x08:.reload_cs     ; 0x08 - селектор кода (просто математика: 1 << 3 = 0x08 - 1 это индекс)
+    jmp 0x08:.reload_cs     
 
 
 .reload_cs:

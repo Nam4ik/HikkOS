@@ -42,15 +42,17 @@ void kprint(const char fmt[]) {
     }
 }
 
-/* kernel entry point 
+/* 
+   kernel entry point 
    TODO: Syscall wrappers
 */
 void kmain(void)
-{
+{   
+    kprint("Starting initialising kern..."); 
 
     /* infinte kernel cycle */
     for (;;)
     {
-        
+     kprint("Kernel started.");
     }
 }
