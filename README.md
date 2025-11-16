@@ -13,7 +13,7 @@ J4Fun unix-like i386 OS written on Rust, C and NASM.
 - **Rust** - only in critical places for memory, it is minimally used because it has a large number of dependencies embedded in the object file.
 ## Build plan:
 1. **Bootloader (or compatability with existing)**
-2. **Kernel interruptions and main functions, syscalls etc...**
+2. **Kernel interruptions and main functions, syscalls, minimal drivers kit etc...**
 3. **PIC/USB ports I/O**
 4. **VGA/VESA ABI library**
 5. **Shell**
